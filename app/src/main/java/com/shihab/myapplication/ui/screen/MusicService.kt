@@ -7,9 +7,13 @@ import android.app.Service
 import android.content.Intent
 import android.os.Build
 import android.os.IBinder
+import androidx.annotation.OptIn
 import androidx.core.app.NotificationCompat
 import androidx.media3.common.MediaItem
+import androidx.media3.common.util.UnstableApi
+import androidx.media3.datasource.RawResourceDataSource
 import androidx.media3.exoplayer.ExoPlayer
+import com.shihab.myapplication.R
 
 class MusicService : Service() {
 
@@ -35,9 +39,11 @@ class MusicService : Service() {
         return START_STICKY
     }
 
+    @OptIn(UnstableApi::class)
     private fun startMusic() {
-        val mediaItem =
-            MediaItem.RawResourceDataSource.buildRawResourceUri(R.raw.mymusic)
+        val uri = RawResourceDataSource.buildRawResourceUri(R.raw.music)
+        val mediaItem = MediaItem.fromUri(uri)
+
         exoPlayer.setMediaItem(mediaItem)
         exoPlayer.prepare()
         exoPlayer.play()
